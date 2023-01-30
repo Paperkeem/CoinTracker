@@ -1,51 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const coin = [
-{
-id: "btc-bitcoin",
-name: "Bitcoin",
-symbol: "BTC",
-rank: 1,
-is_new: false,
-is_active: true,
-type: "coin",
-},
-{
-id: "eth-ethereum",
-name: "Ethereum",
-symbol: "ETH",
-rank: 2,
-is_new: false,
-is_active: true,
-type: "coin",
-},
-{
-id: "hex-hex",
-name: "HEX",
-symbol: "HEX",
-rank: 3,
-is_new: false,
-is_active: true,
-type: "token",
-},
-]
+interface ICoin {
+  id: string,
+  name: string,
+  symbol: string,
+  rank: number,
+  is_new: boolean,
+  is_active: boolean,
+  type: string,
+}
 
 export default function Coins() {
+  const [coins, setCoins] = useState<ICoin[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const res = await fetch("https://api.coinpaprika.com/v1/coins");
+      const json = await res.json();
+      setCoins(json.slice(0, 100));
+      setLoading(false);
+    })();
+  }, []);
+
   return (
     <StContainer>
       <StHeader>
         <StTitle>Coin Tracker</StTitle>
       </StHeader>
 
-      <StCoinList>
-        {coin.map((coin) => (
-          <StCoin key={coin.id}>
-            <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
-          </StCoin>
-        ))}
-      </StCoinList>
+      {loading ? (
+        <LoadingSection />
+      ) : (
+        <StCoinList>
+          {coins?.map((coin) => (
+            <StCoin key={coin.id}>
+              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+            </StCoin>
+          ))}
+        </StCoinList>
+      )}
     </StContainer>
   );
 }
@@ -87,4 +84,26 @@ const StTitle = styled.h1`
   font-weight: bold;
   color: ${props => props.theme.accentColor};
 `
+const LoadingSection = styled.div`
+	box-sizing: border-box;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 64px;
+	height: 64px;
+	margin-top: -32px;
+	margin-left: -32px;
+	border-radius: 50%;
+	border: 5px solid transparent;
+	border-top-color: ${(props) => props.theme.accentColor};
+	animation: loading 0.8s ease infinite;
 
+	@keyframes loading {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+`;
