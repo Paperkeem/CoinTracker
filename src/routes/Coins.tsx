@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 interface ICoin {
   id: string,
@@ -18,7 +19,6 @@ export default function Coins() {
   
   useEffect(() => {
     (async () => {
-      setLoading(true);
       const res = await fetch("https://api.coinpaprika.com/v1/coins");
       const json = await res.json();
       setCoins(json.slice(0, 100));
@@ -33,12 +33,17 @@ export default function Coins() {
       </StHeader>
 
       {loading ? (
-        <LoadingSection />
+        <LoadingSpinner />
       ) : (
         <StCoinList>
           {coins?.map((coin) => (
             <StCoin key={coin.id}>
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              <Link to={`/${coin.id}`} state={{ name: coin.name }}>
+                <StImage
+                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                />
+                {coin.name} &rarr;
+              </Link>
             </StCoin>
           ))}
         </StCoinList>
@@ -60,6 +65,12 @@ const StHeader = styled.header`
   align-items: center;
 `;
 
+const StTitle = styled.h1`
+  font-size: 48px;
+  font-weight: bold;
+  color: ${props => props.theme.accentColor};
+`
+
 const StCoinList = styled.ul``;
 
 const StCoin = styled.li`
@@ -70,7 +81,8 @@ const StCoin = styled.li`
   a {
     padding: 20px;
     transition: color 0.2s ease-in;
-    display: block;
+    display: flex;
+    align-items: center;
   }
   &:hover {
     a {
@@ -79,31 +91,8 @@ const StCoin = styled.li`
   }
 `;
 
-const StTitle = styled.h1`
-  font-size: 48px;
-  font-weight: bold;
-  color: ${props => props.theme.accentColor};
+const StImage = styled.img`
+margin-right: 10px;
+width: 35px;
+height: 35px;
 `
-const LoadingSection = styled.div`
-	box-sizing: border-box;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 64px;
-	height: 64px;
-	margin-top: -32px;
-	margin-left: -32px;
-	border-radius: 50%;
-	border: 5px solid transparent;
-	border-top-color: ${(props) => props.theme.accentColor};
-	animation: loading 0.8s ease infinite;
-
-	@keyframes loading {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-`;
