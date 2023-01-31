@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import LoadingSpinner from '../components/LoadingSpinner';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 interface ICoin {
-  id: string,
-  name: string,
-  symbol: string,
-  rank: number,
-  is_new: boolean,
-  is_active: boolean,
-  type: string,
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+  type: string;
 }
 
 export default function Coins() {
   const [coins, setCoins] = useState<ICoin[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     (async () => {
       const res = await fetch("https://api.coinpaprika.com/v1/coins");
@@ -68,8 +68,8 @@ const StHeader = styled.header`
 const StTitle = styled.h1`
   font-size: 48px;
   font-weight: bold;
-  color: ${props => props.theme.accentColor};
-`
+  color: ${(props) => props.theme.accentColor};
+`;
 
 const StCoinList = styled.ul``;
 
@@ -92,7 +92,7 @@ const StCoin = styled.li`
 `;
 
 const StImage = styled.img`
-margin-right: 10px;
-width: 35px;
-height: 35px;
-`
+  margin-right: 10px;
+  width: 35px;
+  height: 35px;
+`;

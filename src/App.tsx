@@ -1,7 +1,7 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -56,15 +56,14 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: 'Source Sans Pro', sans-serif;
-    background-color: ${props => props.theme.bgColor};
-    color: ${props => props.theme.textColor};
+    background-color: ${(props) => props.theme.bgColor};
+    color: ${(props) => props.theme.textColor};
   }
   a {
     text-decoration: none;
     color: inherit;
   }
   `;
-
 
 const queryClient = new QueryClient();
 function App() {
