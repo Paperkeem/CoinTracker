@@ -16,7 +16,9 @@ export interface ICoin {
 }
 
 export default function Coins() {
-  const { isLoading, data: coins } = useQuery<ICoin[]>(["coins"], fetchCoins);
+  const { isLoading, data: coins } = useQuery<ICoin[]>(["coins"], fetchCoins, {
+    select: (data) => data.slice(0, 30),
+  });
 
   return (
     <StContainer>
@@ -28,7 +30,7 @@ export default function Coins() {
         <LoadingSpinner />
       ) : (
         <StCoinList>
-          {coins?.slice(0, 100).map((coin) => (
+          {coins?.map((coin) => (
             <StCoin key={coin.id}>
               <Link to={`/${coin.id}`} state={{ name: coin.name }}>
                 <StImage

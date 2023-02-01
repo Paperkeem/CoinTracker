@@ -68,7 +68,7 @@ export default function Coin() {
         </Tab>
       </Tabs>
 
-      <Outlet />
+      <Outlet context={{ coinId }} />
     </StContainer>
   );
 }
