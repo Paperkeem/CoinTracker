@@ -5,6 +5,7 @@ import styled from "styled-components";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { fetchingInfo, fetchingPrice } from "../api/api";
 import { infoData, PriceData } from "../type/type";
+import { Helmet } from "react-helmet";
 
 export default function Coin() {
   const { coinId } = useParams();
@@ -20,6 +21,10 @@ export default function Coin() {
 
   return (
     <StContainer>
+      <Helmet>
+        <title>{isLoading ? "Loding..." : info?.name}</title>
+      </Helmet>
+
       <StHeader>
         <StTitle>{info?.name}</StTitle>
       </StHeader>
@@ -40,8 +45,8 @@ export default function Coin() {
             </OverviewItem>
 
             <OverviewItem>
-              <span>Symbol</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>Price</span>
+              <span>{price?.quotes.USD.price.toFixed(2)}</span>
             </OverviewItem>
           </StOverview>
           <Description>{info?.description}</Description>

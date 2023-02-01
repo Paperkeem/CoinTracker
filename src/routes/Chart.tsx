@@ -42,8 +42,33 @@ export default function Chart() {
           options={{
             theme: { mode: "dark" },
             chart: {
-              height: 500,
+              height: 300,
               width: 500,
+              background: "transparent",
+              toolbar: { show: false },
+            },
+            grid: { show: false },
+            stroke: {
+              curve: "smooth",
+              width: 4,
+            },
+            yaxis: { show: false },
+            xaxis: {
+              labels: { show: false },
+              type: "datetime",
+              categories: chart.map((price: IHistory) =>
+                new Date(price.time_close * 1000).toUTCString().slice(0, 16)
+              ),
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#54a0ff"], stops: [0, 100] },
+            },
+            colors: ["#10ac84"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$ ${value.toFixed(1)}`,
+              },
             },
           }}
         />

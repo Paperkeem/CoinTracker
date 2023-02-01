@@ -1,7 +1,10 @@
 const BASE_URL = "https://api.coinpaprika.com";
 
 export function fetchCoins() {
-  return fetch(`${BASE_URL}/v1/coins`).then((res) => res.json());
+  return fetch(`${BASE_URL}/v1/coins`).then((res) => {
+    if (!res.ok) throw new Error("Error!");
+    return res.json();
+  });
 }
 
 export const fetchingInfo = async (coinId?: string) => {

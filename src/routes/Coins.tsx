@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api/api";
@@ -22,6 +23,10 @@ export default function Coins() {
 
   return (
     <StContainer>
+      <Helmet>
+        <title>Coin-Tracker</title>
+      </Helmet>
+
       <StHeader>
         <StTitle>Coin Tracker</StTitle>
       </StHeader>
