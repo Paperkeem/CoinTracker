@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoins } from "../api/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-interface ICoin {
+export interface ICoin {
   id: string;
   name: string;
   symbol: string;
@@ -14,17 +16,7 @@ interface ICoin {
 }
 
 export default function Coins() {
-  const [coins, setCoins] = useState<ICoin[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await res.json();
-      setCoins(json.slice(0, 100));
-      setLoading(false);
-    })();
-  }, []);
+  const { isLoading, data: coins } = useQuery<ICoin[]>(["coins"], fetchCoins);
 
   return (
     <StContainer>
@@ -32,11 +24,11 @@ export default function Coins() {
         <StTitle>Coin Tracker</StTitle>
       </StHeader>
 
-      {loading ? (
+      {isLoading ? (
         <LoadingSpinner />
       ) : (
         <StCoinList>
-          {coins?.map((coin) => (
+          {coins?.slice(0, 100).map((coin) => (
             <StCoin key={coin.id}>
               <Link to={`/${coin.id}`} state={{ name: coin.name }}>
                 <StImage

@@ -1,38 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, Outlet, useMatch, useParams } from "react-router-dom";
 import styled from "styled-components";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { fetchingInfo, fetchingPrice } from "../api/api";
+import { infoData, PriceData } from "../type/type";
 
 export default function Coin() {
   const { coinId } = useParams();
-  const {
-    state: { name },
-  } = useLocation();
-  const [loading, setLoading] = useState(true);
+  const priceMatch = useMatch(`/:coinId/price`);
+  const chartMatch = useMatch(`/:coinId/chart`);
 
-  const fetchingInfo = async () => {
-    const infoData = await (
-      await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-    ).json();
-    return infoData;
-  };
-  const fetchingPrice = async () => {
-    const priceData = await (
-      await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-    ).json();
-    return priceData;
-  };
-
-  const { isLoading, data: info } = useQuery(["info"], fetchingInfo);
-  const { data: price } = useQuery(["price"], fetchingPrice);
+  const { isLoading, data: info } = useQuery<infoData>(["info", coinId], () =>
+    fetchingInfo(coinId)
+  );
+  const { data: price } = useQuery<PriceData>(["price", coinId], () =>
+    fetchingPrice(coinId)
+  );
 
   return (
     <StContainer>
       <StHeader>
-        <StTitle>
-          {!!name ? name : isLoading ? <LoadingSpinner /> : info?.name}
-        </StTitle>
+        <StTitle>{info?.name}</StTitle>
       </StHeader>
 
       {isLoading ? (
@@ -70,6 +59,16 @@ export default function Coin() {
           </StOverview>
         </>
       )}
+      <Tabs>
+        <Tab isActive={!!chartMatch}>
+          <Link to="chart">Chart</Link>
+        </Tab>
+        <Tab isActive={!!priceMatch}>
+          <Link to="price">Price</Link>
+        </Tab>
+      </Tabs>
+
+      <Outlet />
     </StContainer>
   );
 }
@@ -97,6 +96,7 @@ const OverviewItem = styled.div`
 const Description = styled.p`
   margin: 20px 0px;
   text-align: center;
+  line-height: 1.2rem;
 `;
 
 const StContainer = styled.div`
@@ -116,4 +116,27 @@ const StTitle = styled.h1`
   font-size: 48px;
   font-weight: bold;
   color: ${(props) => props.theme.accentColor};
+`;
+
+const Tabs = styled.div`
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Tab = styled.div<{ isActive: boolean }>`
+  background-color: rgba(0, 0, 0, 0.5);
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  border-radius: 7px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  font-weight: 400;
+  a {
+    padding: 10px 85px;
+    display: block;
+  }
 `;
