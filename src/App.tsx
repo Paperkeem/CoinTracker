@@ -1,7 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { Theme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -65,13 +66,12 @@ const GlobalStyle = createGlobalStyle`
   }
   `;
 
-const queryClient = new QueryClient();
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={Theme}>
       <GlobalStyle />
       <Outlet />
-    </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 

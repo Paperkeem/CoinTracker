@@ -3,68 +3,71 @@ import { useOutletContext } from "react-router-dom";
 import { PriceData } from "../type/type";
 import styled from "styled-components";
 import { AiOutlineFall, AiOutlineRise } from "react-icons/ai";
+import usePrice from "../hooks/usePrice";
 
 type CProps = {
   coinId?: string;
-  price: PriceData;
+  price?: PriceData;
 };
 
 export default function Price() {
-  const { price }: CProps = useOutletContext();
+  const { coinId }: CProps = useOutletContext();
 
   const {
-    quotes: { USD },
-  } = price;
+    priceQuery: { data: price },
+  } = usePrice(coinId!);
 
-  const priceList = [
+  const priceList: { text: string; value: number }[] = [
     {
       text: "30m",
-      value: +USD.percent_change_30m,
+      value: +price?.quotes.USD.percent_change_30m!,
     },
     {
       text: "1h",
-      value: +USD.percent_change_1h,
+      value: +price?.quotes.USD.percent_change_1h!,
     },
     {
       text: "6h",
-      value: +USD.percent_change_6h,
+      value: +price?.quotes.USD.percent_change_6h!,
     },
     {
       text: "12h",
-      value: +USD.percent_change_12h,
+      value: +price?.quotes.USD.percent_change_12h!,
     },
     {
       text: "24h",
-      value: +USD.percent_change_24h,
+      value: +price?.quotes.USD.percent_change_24h!,
     },
     {
       text: "30d",
-      value: +USD.percent_change_30d,
+      value: +price?.quotes.USD.percent_change_30d!,
     },
   ];
-  console.log(priceList);
+
   return (
     <StContainer>
       <StPriceWrap>
         <FlexView>
           <span>
-            {USD.ath_date.slice(0, 10)} {USD.ath_date.slice(11, -1)}
+            {price?.quotes.USD.ath_date.slice(0, 10)}{" "}
+            {price?.quotes.USD.ath_date.slice(11, -1)}
           </span>
           <span>최고가 달성</span>
         </FlexView>
-        <TitleSpan>${USD.ath_price.toFixed(2)}</TitleSpan>
+        <TitleSpan>${price?.quotes.USD.ath_price.toFixed(2)}</TitleSpan>
       </StPriceWrap>
 
       <StockContainer>
-        {priceList.map((item) => (
-          <StockWrap>
-            <span>From {item.text} ago</span>
-            <Result isUp={item.value > 0 ? true : false}>
-              <span>{item.value}%</span>
-              {item.value >= 0 ? <AiOutlineRise /> : <AiOutlineFall />}
-            </Result>
-          </StockWrap>
-        ))}
+        {price !== undefined &&
+          priceList?.map((item) => (
+            <StockWrap key={item.text}>
+              <span>From {item.text} ago</span>
+              <Result isUp={item.value > 0 ? true : false}>
+                <span>{item.value}%</span>
+                {item.value >= 0 ? <AiOutlineRise /> : <AiOutlineFall />}
+              </Result>
+            </StockWrap>
+          ))}
       </StockContainer>
     </StContainer>
   );

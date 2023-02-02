@@ -22,10 +22,7 @@ export default function Chart() {
   const { status, data: chart } = useQuery(
     ["chart", coinId],
     () => fetchCoinHistory(coinId),
-    {
-      onError: (error) => console.log(error + "쿼리 에러문"),
-      retry: 0,
-    }
+    { retry: 0 }
   );
 
   return (

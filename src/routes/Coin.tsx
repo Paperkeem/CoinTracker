@@ -13,6 +13,7 @@ import { fetchingInfo, fetchingPrice } from "../api/api";
 import { infoData, PriceData } from "../type/type";
 import { Helmet } from "react-helmet";
 import { AiOutlineUnorderedList } from "react-icons/ai";
+import usePrice from "../hooks/usePrice";
 
 export default function Coin() {
   const { coinId } = useParams();
@@ -24,11 +25,10 @@ export default function Coin() {
     () => fetchingInfo(coinId),
     { staleTime: 1000 * 60 * 5 }
   );
-  const { data: price } = useQuery<PriceData>(
-    ["price", coinId],
-    () => fetchingPrice(coinId),
-    { staleTime: 1000 * 60 * 5 }
-  );
+
+  const {
+    priceQuery: { data: price },
+  } = usePrice(coinId!);
 
   const navigate = useNavigate();
   const handleGoList = () => navigate("/");

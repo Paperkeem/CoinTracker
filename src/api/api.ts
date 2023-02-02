@@ -20,16 +20,12 @@ export const fetchingPrice = async (coinId?: string) => {
 };
 
 export const fetchCoinHistory = async (coinId?: string) => {
-  try {
-    const res = await fetch(
-      `https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}`
-    );
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const json = res.json();
-    return json;
-  } catch {
-    throw new Error("Network response was not ok 보내기");
+  const res = await fetch(
+    `https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}`
+  );
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
   }
+  const json = res.json();
+  return json;
 };
