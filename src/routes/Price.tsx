@@ -16,7 +16,33 @@ export default function Price() {
     quotes: { USD },
   } = price;
 
-  console.log(price);
+  const priceList = [
+    {
+      text: "30m",
+      value: +USD.percent_change_30m,
+    },
+    {
+      text: "1h",
+      value: +USD.percent_change_1h,
+    },
+    {
+      text: "6h",
+      value: +USD.percent_change_6h,
+    },
+    {
+      text: "12h",
+      value: +USD.percent_change_12h,
+    },
+    {
+      text: "24h",
+      value: +USD.percent_change_24h,
+    },
+    {
+      text: "30d",
+      value: +USD.percent_change_30d,
+    },
+  ];
+  console.log(priceList);
   return (
     <StContainer>
       <StPriceWrap>
@@ -30,72 +56,15 @@ export default function Price() {
       </StPriceWrap>
 
       <StockContainer>
-        <StockWrap>
-          <span>From 30m ago</span>
-          <Result isUp={+USD.percent_change_30m > 0 ? true : false}>
-            <span>{USD.percent_change_30m.toFixed(1)}%</span>
-            {+USD.percent_change_30m >= 0 ? (
-              <AiOutlineRise />
-            ) : (
-              <AiOutlineFall />
-            )}
-          </Result>
-        </StockWrap>
-        <StockWrap>
-          <span>From 1h ago</span>
-          <Result isUp={+USD.percent_change_1h > 0 ? true : false}>
-            <span>{USD.percent_change_1h.toFixed(1)}%</span>
-            {+USD.percent_change_1h >= 0 ? (
-              <AiOutlineRise />
-            ) : (
-              <AiOutlineFall />
-            )}
-          </Result>
-        </StockWrap>
-        <StockWrap>
-          <span>From 6h ago</span>
-          <Result isUp={+USD.percent_change_6h > 0 ? true : false}>
-            <span>{USD.percent_change_6h.toFixed(1)}%</span>
-            {+USD.percent_change_6h >= 0 ? (
-              <AiOutlineRise />
-            ) : (
-              <AiOutlineFall />
-            )}
-          </Result>
-        </StockWrap>
-        <StockWrap>
-          <span>From 12h ago</span>
-          <Result isUp={+USD.percent_change_12h > 0 ? true : false}>
-            <span>{USD.percent_change_12h.toFixed(1)}%</span>
-            {+USD.percent_change_12h >= 0 ? (
-              <AiOutlineRise />
-            ) : (
-              <AiOutlineFall />
-            )}
-          </Result>
-        </StockWrap>
-        <StockWrap>
-          <span>From 24h ago</span>
-          <Result isUp={+USD.percent_change_24h > 0 ? true : false}>
-            <span>{USD.percent_change_24h.toFixed(1)}%</span>
-            {+USD.percent_change_24h >= 0 ? (
-              <AiOutlineRise />
-            ) : (
-              <AiOutlineFall />
-            )}
-          </Result>
-        </StockWrap>
-        <StockWrap>
-          <span>From 30d ago</span>
-          <Result isUp={+USD.percent_change_30d > 0 ? true : false}>
-            <span>{USD.percent_change_30d.toFixed(1)}%</span>
-            {+USD.percent_change_30d >= 0 ? (
-              <AiOutlineRise />
-            ) : (
-              <AiOutlineFall />
-            )}
-          </Result>
-        </StockWrap>
+        {priceList.map((item) => (
+          <StockWrap>
+            <span>From {item.text} ago</span>
+            <Result isUp={item.value > 0 ? true : false}>
+              <span>{item.value}%</span>
+              {item.value >= 0 ? <AiOutlineRise /> : <AiOutlineFall />}
+            </Result>
+          </StockWrap>
+        ))}
       </StockContainer>
     </StContainer>
   );
