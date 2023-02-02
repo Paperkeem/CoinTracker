@@ -37,7 +37,7 @@ export default function Coins() {
         <StCoinList>
           {coins?.map((coin) => (
             <StCoin key={coin.id}>
-              <Link to={`/${coin.id}`} state={{ name: coin.name }}>
+              <Link to={`/${coin.id}/chart`} state={{ name: coin.name }}>
                 <StImage
                   src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                 />

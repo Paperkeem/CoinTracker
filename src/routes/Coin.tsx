@@ -1,29 +1,47 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link, Outlet, useMatch, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useMatch,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import styled from "styled-components";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { fetchingInfo, fetchingPrice } from "../api/api";
 import { infoData, PriceData } from "../type/type";
 import { Helmet } from "react-helmet";
+import { AiOutlineUnorderedList } from "react-icons/ai";
 
 export default function Coin() {
   const { coinId } = useParams();
   const priceMatch = useMatch(`/:coinId/price`);
   const chartMatch = useMatch(`/:coinId/chart`);
 
-  const { isLoading, data: info } = useQuery<infoData>(["info", coinId], () =>
-    fetchingInfo(coinId)
+  const { isLoading, data: info } = useQuery<infoData>(
+    ["info", coinId],
+    () => fetchingInfo(coinId),
+    { staleTime: 1000 * 60 * 5 }
   );
-  const { data: price } = useQuery<PriceData>(["price", coinId], () =>
-    fetchingPrice(coinId)
+  const { data: price } = useQuery<PriceData>(
+    ["price", coinId],
+    () => fetchingPrice(coinId),
+    { staleTime: 1000 * 60 * 5 }
   );
+
+  const navigate = useNavigate();
+  const handleGoList = () => navigate("/");
 
   return (
     <StContainer>
       <Helmet>
         <title>{isLoading ? "Loding..." : info?.name}</title>
       </Helmet>
+
+      <ListIcon>
+        <AiOutlineUnorderedList onClick={handleGoList} />
+      </ListIcon>
 
       <StHeader>
         <StTitle>{info?.name}</StTitle>
@@ -73,7 +91,7 @@ export default function Coin() {
         </Tab>
       </Tabs>
 
-      <Outlet context={{ coinId }} />
+      <Outlet context={{ coinId, price }} />
     </StContainer>
   );
 }
@@ -106,7 +124,7 @@ const Description = styled.p`
 
 const StContainer = styled.div`
   max-width: 480px;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 0px 20px;
 `;
 
@@ -143,5 +161,19 @@ const Tab = styled.div<{ isActive: boolean }>`
   a {
     padding: 10px 85px;
     display: block;
+  }
+`;
+
+const ListIcon = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    color: ${(props) => props.theme.textColor};
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+  span {
+    margin-left: 5px;
+    font-size: 1.2rem;
   }
 `;
