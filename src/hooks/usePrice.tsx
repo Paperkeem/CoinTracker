@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { PriceData } from "../type/type";
 import { fetchingPrice } from "../api/api";
 

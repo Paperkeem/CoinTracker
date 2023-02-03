@@ -1,8 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom/atoms";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { Theme } from "./theme";
+import { darkTheme, lightTheme } from "./style/theme";
+import Footer from "./components/Footer";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -67,10 +69,12 @@ const GlobalStyle = createGlobalStyle`
   `;
 
 function App() {
+  const isDark = useRecoilValue(isDarkAtom);
   return (
-    <ThemeProvider theme={Theme}>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <GlobalStyle />
       <Outlet />
+      <Footer />
     </ThemeProvider>
   );
 }

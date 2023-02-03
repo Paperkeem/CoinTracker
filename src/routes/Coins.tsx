@@ -74,7 +74,7 @@ const StCoinList = styled.ul``;
 
 const StCoin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.accentColor};
   border-radius: 7px;
   margin-bottom: 10px;
   a {

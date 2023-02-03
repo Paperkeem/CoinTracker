@@ -4,6 +4,8 @@ import { useOutletContext } from "react-router-dom";
 import { fetchCoinHistory } from "../api/api";
 import ApexChart from "react-apexcharts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atom/atoms";
 
 interface IHistory {
   time_open: number;
@@ -18,6 +20,7 @@ interface IHistory {
 
 export default function Chart() {
   const { coinId } = useOutletContext<Record<string, string>>();
+  const isDark = useRecoilValue(isDarkAtom);
 
   const { status, data: chart } = useQuery(
     ["chart", coinId],
@@ -49,7 +52,7 @@ export default function Chart() {
             },
           ]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               height: 300,
               width: 500,

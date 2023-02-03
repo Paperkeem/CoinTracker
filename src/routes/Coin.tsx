@@ -98,7 +98,7 @@ export default function Coin() {
 const StOverview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
   border-radius: 7px;
   padding: 10px 20px;
 `;
@@ -150,7 +150,7 @@ const Tabs = styled.div`
 `;
 
 const Tab = styled.div<{ isActive: boolean }>`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   border-radius: 7px;

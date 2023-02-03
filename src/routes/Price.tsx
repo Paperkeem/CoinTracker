@@ -81,7 +81,7 @@ const StContainer = styled.div`
 const StPriceWrap = styled.div`
   padding: 20px 20px;
   border-radius: 7px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
   margin-bottom: 10px;
 
   display: flex;
@@ -114,7 +114,7 @@ const StockContainer = styled.div`
 const StockWrap = styled.div`
   padding: 20px 20px;
   border-radius: 7px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
 
   display: flex;
   flex-direction: column;
