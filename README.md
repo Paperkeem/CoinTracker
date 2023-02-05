@@ -42,8 +42,8 @@ npm start
 - [x] Coin Data
   <br />
 - [x] Candlestick Charts
- <br />
+  <br />
 - [x] Price Detail
- <br />
+  <br />
 - [x] Light / Dark mode
- <br />
+  <br />
