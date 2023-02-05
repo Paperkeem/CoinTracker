@@ -19,12 +19,10 @@
 <br>
 
 ```bash
-# 프로젝트 패키지 설치
 npm install
 ```
 
 ```bash
-# 로컬 실행
 npm start
 ```
 
@@ -39,24 +37,10 @@ npm start
 
 ## 구현사항
 
-#### 1. react-query error handling
-  
-<br>
-
-#### 2. apexcharts 이용 차트 생성
-    
-<br>
-
-#### 3. styled-components ThemeProvider 이용 `dark/light` 모드 구현
+[x] Route
+[x] Coin Data
+[x] Candlestick Charts
+[x] Price Detail
+[x] Light / Dark mode
 
 </br>
-
-## Contributor
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center"><a href="https://github.com/Paperkeem"><img src="https://user-images.githubusercontent.com/107424974/212338824-fc8fd767-7ed3-4600-9596-7665f823be03.jpeg" width="100px;" alt=""/><br /><sub><b>김종이</b></sub></a><br /></td>
-    </tr>
-  </tbody>
-</table>
