@@ -37,10 +37,13 @@ npm start
 
 ## 구현사항
 
-[x] Route
-[x] Coin Data
-[x] Candlestick Charts
-[x] Price Detail
-[x] Light / Dark mode
-
-</br>
+ [x] Route
+  <br />
+ [x] Coin Data
+  <br />
+ [x] Candlestick Charts
+ <br />
+ [x] Price Detail
+ <br />
+ [x] Light / Dark mode
+ <br />
